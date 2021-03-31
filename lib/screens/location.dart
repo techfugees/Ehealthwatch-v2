@@ -59,10 +59,12 @@ class _LocationWidgetState extends State<LocationWidget> {
 
     auth = request({
       "phone": widget.phonenumber,
-      "location": appState.initialPosition,
+      "location": appState.initialPosition.toString(),
       "area": appState.locationController.text,
+      ""
       "condition": widget.condition,
       "symptoms": widget.symptoms,
+      "l": "English"
     });
 
     setState(() {

@@ -7,8 +7,7 @@ import 'package:techfugeesapp/components/components.dart';
 import 'package:techfugeesapp/theme/theme.dart';
 import 'package:toast/toast.dart';
 
-const String url =
-    'https://premium56.web-hosting.com:2083/cpsess5864170938/frontend/paper_lantern/filemanager/showfile.html?file=app-hook.php&fileop=&dir=%2fhome%2ffyiscrpj%2ffaceless.rocks&dirop=&charset=&file_charset=utf-8&baseurl=&basedir=&login=1&post_login=95062529727608';
+const String url = 'https://mtaa.shop/app-hook.php';
 
 class Response {
   final String message;
@@ -91,25 +90,28 @@ Future<Response> request(Map<String, dynamic> data, {token}) async {
 
   http.Response response;
   try {
-    // final String _url = "https://example.com/api/";
-    // final Uri _uri = Uri.parse(_url) // parse string
-    //     .replace(queryParameters: _params);
-
-    // Uri uri = Uri(path: '$url');
+    print('jsonEncode(data)');
+    print(jsonEncode(data));
     response = await http.post(Uri.parse(url),
         headers: headers, body: jsonEncode(data));
-    var decoded = json.decode(response.body);
-
+    // var decoded = json.decode(response.body);
+    var decoded = response.body;
+    print('check');
     if (response.statusCode == 200) {
+      print('response.body');
       print(response.body);
-      return Response.fromJson(decoded);
-      // } else if (response.statusCode == null) {
+      // return Response.fromJson(decoded);
+      return Response(
+          data: response.body,
+          code: response.statusCode,
+          error: true,
+          message: decoded);
     } else {
       return Response(
           data: null,
           code: response.statusCode,
           error: true,
-          message: decoded['message']);
+          message: decoded);
     }
     // ignore: unused_catch_clause
   } on TimeoutException catch (e) {
