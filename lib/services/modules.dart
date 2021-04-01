@@ -81,7 +81,7 @@ void handleStages(Response query, BuildContext ctx, Function callback) {
 
 // Uri uri =Uri();
 // ignore: missing_return
-Future<Response> request(Map<String, dynamic> data, {token}) async {
+Future<dynamic> request(Map<String, dynamic> data, {token}) async {
   Map<String, String> headers = {
     'Content-Type': 'application/json; charset=UTF-8'
   };
@@ -95,41 +95,23 @@ Future<Response> request(Map<String, dynamic> data, {token}) async {
     response = await http.post(Uri.parse(url),
         headers: headers, body: jsonEncode(data));
     // var decoded = json.decode(response.body);
-    var decoded = response.body;
     print('check');
-    if (response.statusCode == 200) {
-      print('response.body');
-      print(response.body);
+    print('response.body');
+    print(response.body);
       // return Response.fromJson(decoded);
-      return Response(
-          data: response.body,
-          code: response.statusCode,
-          error: true,
-          message: decoded);
-    } else {
-      return Response(
-          data: null,
-          code: response.statusCode,
-          error: true,
-          message: decoded);
-    }
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        return 'An error was encountered';
+      }
     // ignore: unused_catch_clause
   } on TimeoutException catch (e) {
-    return Response(
-        data: null, code: -1, error: true, message: 'Operation timed out');
+    return 'Operation timed out';
     // ignore: unused_catch_clause
   } on SocketException catch (e) {
-    return Response(
-        data: null,
-        code: -2,
-        error: true,
-        message: 'Please check your internet connection.');
+    return 'Please check your internet connection.';
     // ignore: unused_catch_clause
   } on Error catch (e) {
-    return Response(
-        data: null,
-        code: -3,
-        error: true,
-        message: 'An error occurred, please try again later.');
+    return 'An error occurred, please try again later.';
   }
 }

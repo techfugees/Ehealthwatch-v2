@@ -38,7 +38,7 @@ class LocationWidget extends StatefulWidget {
 class _LocationWidgetState extends State<LocationWidget> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
-  Future<Response> auth;
+  Future<dynamic> auth;
   bool isLoading = false;
 
   void showInSnackBar(String txt) {
@@ -55,38 +55,39 @@ class _LocationWidgetState extends State<LocationWidget> {
   void submit(BuildContext context, appState) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    showInSnackBar('Logging in...');
+    showInSnackBar('Reporting...');
 
     auth = request({
       "phone": widget.phonenumber,
       "location": appState.initialPosition.toString(),
       "area": appState.locationController.text,
-      ""
+      // ""
       "condition": widget.condition,
       "symptoms": widget.symptoms,
-      "l": "English"
+      // "l": "English"
     });
 
     setState(() {
       isLoading = false;
     });
     auth.then((auth) async {
-      print(auth.code);
-      print('auth.message');
-      print(auth.message);
-      if (auth.error) {
-        showInSnackBar("${auth.message}");
-      } else {
-        showInSnackBar('Hureee!');
+      // if (auth == "reported") {
+        // showInSnackBar("$auth");
+        showInSnackBar('Reported!');
+
         prefs.setString('token', widget.phonenumber);
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           PageTransition(
-            type: PageTransitionType.leftToRight,
-            child: MainPageWidget(),
+            type: PageTransitionType.rightToLeft,
+            child: ReportCase(
+              phonenumber: widget.phonenumber,
+            ),
           ),
         );
-      }
+      // } else {
+      //   showInSnackBar('An Error Occurred!');
+      // }
     });
   }
 

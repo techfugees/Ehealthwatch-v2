@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:techfugeesapp/data/data.dart';
-import 'package:techfugeesapp/theme/theme.dart';
+// import 'package:techfugeesapp/theme/theme.dart';
 import 'package:location/location.dart';
   Location locationcustom = new Location();
   bool _serviceEnabled;
@@ -43,33 +43,33 @@ class NoLocation extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            Container(
-              child: Center(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  child: RaisedButton(
-                    elevation: 0,
-                    color: maincolor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0)),
-                    child: Text(
-                      "TRY AGAIN",
-                      style: GoogleFonts.raleway(
-                          textStyle: TextStyle(
-                              color: backgroundcolor,
-                              fontSize: fontsize1,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                    onPressed: () {
-                      print("whatsapp");
-                     openLocationSetting();
-                    },
-                    padding: EdgeInsets.all(16.0),
-                  ),
-                ),
-              ),
-            ),
+            // SizedBox(height: 20),
+            // Container(
+            //   child: Center(
+            //     child: SizedBox(
+            //       width: MediaQuery.of(context).size.width * 0.95,
+            //       child: RaisedButton(
+            //         elevation: 0,
+            //         color: maincolor,
+            //         shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(5.0)),
+            //         child: Text(
+            //           "TRY AGAIN",
+            //           style: GoogleFonts.raleway(
+            //               textStyle: TextStyle(
+            //                   color: backgroundcolor,
+            //                   fontSize: fontsize1,
+            //                   fontWeight: FontWeight.bold)),
+            //         ),
+            //         onPressed: () {
+            //           print("whatsapp");
+            //          openLocationSetting();
+            //         },
+            //         padding: EdgeInsets.all(16.0),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

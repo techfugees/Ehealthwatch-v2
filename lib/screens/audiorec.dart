@@ -90,7 +90,7 @@ class _AudioRecState extends State<AudioRec> {
       });
     }
     if (event['code'] == 'playing') {
-      String url = event['url'];
+      // String url = event['url'];
       setState(() {
         playPosition = event['currentTime'];
         isPlay = true;

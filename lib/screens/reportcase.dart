@@ -321,161 +321,165 @@ class _ReportCaseState extends State<ReportCase> {
                   ),
                 ),
                 SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Any Images?",
-                          style: GoogleFonts.raleway(
-                              textStyle: TextStyle(
-                                  fontSize: fontsize1,
-                                  color: fontcolor,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: loadvariantsAssets,
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: maincolor,
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.add,
-                                  color: backgroundcolor,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * .16,
-                              decoration: BoxDecoration(
-                                color: Color(0xfff5f5f5),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: Offset(-3.00, -3.00),
-                                    color: Color(0xffffffff),
-                                    blurRadius: 6,
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.circular(6.00),
-                              ),
-                              child: builimagevariantsListview(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Any Audio?",
-                          style: GoogleFonts.raleway(
-                              textStyle: TextStyle(
-                                  fontSize: fontsize1,
-                                  color: fontcolor,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                canRecord
-                    ? Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  if (isRecord) {
-                                    _stopRecord();
-                                  } else {
-                                    _startRecord();
-                                  }
-                                },
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: isRecord ? maincolor2 : maincolor,
-                                  ),
-                                  child: Center(
-                                    child: Icon(
-                                      isRecord
-                                          ? Icons.keyboard_voice_rounded
-                                          : Icons.keyboard_voice_outlined,
-                                      color: backgroundcolor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              IconButton(
-                                  icon: isPlay
-                                      ? Icon(Icons.play_arrow_outlined,
-                                          color: maincolor)
-                                      : Icon(Icons.play_disabled),
-                                  onPressed: () {
-                                    if (!isRecord && file.length > 0) {
-                                      _startStopPlay();
-                                    }
-                                  }),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                'TIME: ' + recordPosition.toStringAsFixed(2),
-                                style: GoogleFonts.raleway(
-                                    textStyle: TextStyle(
-                                  fontSize: fontsize1,
-                                  color: fontcolor,
-                                )),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    : Text(
-                        'Microphone Access Disabled.\nYou can enable access in Settings',
-                        style: GoogleFonts.raleway(
-                            textStyle: TextStyle(
-                          fontSize: fontsize1,
-                          color: fontcolor,
-                        )),
-                      ),
+
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 12.0),
+                //   child: Column(
+                //     children: [
+                //       Align(
+                //         alignment: Alignment.centerLeft,
+                //         child: Text(
+                //           "Any Images?",
+                //           style: GoogleFonts.raleway(
+                //               textStyle: TextStyle(
+                //                   fontSize: fontsize1,
+                //                   color: fontcolor,
+                //                   fontWeight: FontWeight.bold)),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 12.0),
+                //   child: Align(
+                //     alignment: Alignment.topLeft,
+                //     child: SingleChildScrollView(
+                //       scrollDirection: Axis.horizontal,
+                //       child: Row(
+                //         children: [
+                //           GestureDetector(
+                //             onTap: loadvariantsAssets,
+                //             child: Container(
+                //               width: 50,
+                //               height: 50,
+                //               decoration: BoxDecoration(
+                //                 shape: BoxShape.circle,
+                //                 color: maincolor,
+                //               ),
+                //               child: Center(
+                //                 child: Icon(
+                //                   Icons.add,
+                //                   color: backgroundcolor,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //           SizedBox(
+                //             width: 5,
+                //           ),
+                //           SingleChildScrollView(
+                //             scrollDirection: Axis.horizontal,
+                //             child: Container(
+                //               height: MediaQuery.of(context).size.height * .16,
+                //               decoration: BoxDecoration(
+                //                 color: Color(0xfff5f5f5),
+                //                 boxShadow: [
+                //                   BoxShadow(
+                //                     offset: Offset(-3.00, -3.00),
+                //                     color: Color(0xffffffff),
+                //                     blurRadius: 6,
+                //                   ),
+                //                 ],
+                //                 borderRadius: BorderRadius.circular(6.00),
+                //               ),
+                //               child: builimagevariantsListview(),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
+               
+                // Padding(
+                //   padding: const EdgeInsets.all(12.0),
+                //   child: Column(
+                //     children: [
+                //       Align(
+                //         alignment: Alignment.centerLeft,
+                //         child: Text(
+                //           "Any Audio?",
+                //           style: GoogleFonts.raleway(
+                //               textStyle: TextStyle(
+                //                   fontSize: fontsize1,
+                //                   color: fontcolor,
+                //                   fontWeight: FontWeight.bold)),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // canRecord
+                //     ? Align(
+                //         alignment: Alignment.topLeft,
+                //         child: Padding(
+                //           padding: const EdgeInsets.all(12.0),
+                //           child: Row(
+                //             children: [
+                //               GestureDetector(
+                //                 onTap: () {
+                //                   if (isRecord) {
+                //                     _stopRecord();
+                //                   } else {
+                //                     _startRecord();
+                //                   }
+                //                 },
+                //                 child: Container(
+                //                   width: 50,
+                //                   height: 50,
+                //                   decoration: BoxDecoration(
+                //                     shape: BoxShape.circle,
+                //                     color: isRecord ? maincolor2 : maincolor,
+                //                   ),
+                //                   child: Center(
+                //                     child: Icon(
+                //                       isRecord
+                //                           ? Icons.keyboard_voice_rounded
+                //                           : Icons.keyboard_voice_outlined,
+                //                       color: backgroundcolor,
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ),
+                //               SizedBox(
+                //                 width: 5,
+                //               ),
+                //               IconButton(
+                //                   icon: isPlay
+                //                       ? Icon(Icons.play_arrow_outlined,
+                //                           color: maincolor)
+                //                       : Icon(Icons.play_disabled),
+                //                   onPressed: () {
+                //                     if (!isRecord && file.length > 0) {
+                //                       _startStopPlay();
+                //                     }
+                //                   }),
+                //               SizedBox(
+                //                 width: 5,
+                //               ),
+                //               Text(
+                //                 'TIME: ' + recordPosition.toStringAsFixed(2),
+                //                 style: GoogleFonts.raleway(
+                //                     textStyle: TextStyle(
+                //                   fontSize: fontsize1,
+                //                   color: fontcolor,
+                //                 )),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       )
+                //     : Text(
+                //         'Microphone Access Disabled.\nYou can enable access in Settings',
+                //         style: GoogleFonts.raleway(
+                //             textStyle: TextStyle(
+                //           fontSize: fontsize1,
+                //           color: fontcolor,
+                //         )),
+                //       ),
+               
+               
                 Padding(
                   padding: const EdgeInsets.all(12),
                   child: GestureDetector(

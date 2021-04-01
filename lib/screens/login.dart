@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
+// import 'package:page_transition/page_transition.dart';
 import 'package:techfugeesapp/components/components.dart';
 import 'package:techfugeesapp/data/data.dart';
-import 'package:techfugeesapp/screens/screens.dart';
-import 'package:techfugeesapp/services/modules.dart';
+// import 'package:techfugeesapp/screens/screens.dart';
+// import 'package:techfugeesapp/services/modules.dart';
 import 'package:techfugeesapp/theme/theme.dart';
 
 class LoginPage extends StatefulWidget {
