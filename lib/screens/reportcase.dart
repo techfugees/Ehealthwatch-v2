@@ -3,9 +3,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:medcorder_audio/medcorder_audio.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:techfugeesapp/data/data.dart';
+import 'package:techfugeesapp/models/models.dart';
 import 'package:techfugeesapp/screens/screens.dart';
 import 'package:techfugeesapp/theme/theme.dart';
+
+class ListItem {
+  int value;
+  String name;
+
+  ListItem(this.value, this.name);
+}
 
 class ReportCase extends StatefulWidget {
   final String phonenumber;
@@ -35,9 +44,35 @@ class _ReportCaseState extends State<ReportCase> {
   bool isPlay = false;
   double playPosition = 0.0;
   String file = "";
+  List<ListItem> _dropdownItems = [
+    ListItem(1, "TB/HIV"),
+    ListItem(2, "MATERNITY"),
+    ListItem(3, "ANTENATAL CARE"),
+    ListItem(4, "COVID-19"),
+    ListItem(5, "NUTRITION"),
+    ListItem(4, "HEALTH CARE")
+  ];
+
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems;
+  ListItem _selectedItem;
+
+  List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
+    List<DropdownMenuItem<ListItem>> items = [];
+    for (ListItem listItem in listItems) {
+      items.add(
+        DropdownMenuItem(
+          child: Text(listItem.name),
+          value: listItem,
+        ),
+      );
+    }
+    return items;
+  }
 
   @override
   initState() {
+    _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
+    _selectedItem = _dropdownMenuItems[2].value;
     super.initState();
     audioModule.setCallBack((dynamic data) {
       _onEvent(data);
@@ -182,7 +217,7 @@ class _ReportCaseState extends State<ReportCase> {
             // location: '',
             datetime: datetimecontroller.text,
             symptoms: symptomController.text,
-            condition: conditionController.text,
+            condition: "${_selectedItem.value} + ${_selectedItem.name}",
             images: images,
             audio: file,
           ),
@@ -198,12 +233,41 @@ class _ReportCaseState extends State<ReportCase> {
   }
 
   Widget build(BuildContext context) {
+    final appstate = Provider.of<AppState>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.info_outline,color: fontcolor,),
+              onPressed: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: Text(
+                    appstate.isenglish
+                        ? "Emergency Number"
+                        : "Nambari ya Dharura",
+                    style: GoogleFonts.raleway(
+                        textStyle: TextStyle(
+                            fontSize: fontsize1,
+                            color: fontcolor,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                  content: Text(
+                    "04734983296",
+                    style: GoogleFonts.raleway(
+                        textStyle: TextStyle(
+                      fontSize: fontsize1,
+                      color: fontcolor,
+                    )),
+                  ),
+                ),
+              ),
+            )
+          ],
           title: Text(
-            "Report A Case",
+            appstate.isenglish ? "Report A Case" : "Ripoti Kesi",
             style: GoogleFonts.raleway(
                 textStyle: TextStyle(
                     fontSize: fontsize1,
@@ -226,7 +290,9 @@ class _ReportCaseState extends State<ReportCase> {
                     textAlign: TextAlign.left,
                     keyboardType: TextInputType.datetime,
                     decoration: InputDecoration(
-                      hintText: 'When Did It Happen?',
+                      hintText: appstate.isenglish
+                          ? 'When Did It Happen?'
+                          : "Ilifanyika Lini?",
                       hintStyle: GoogleFonts.getFont(
                         'Raleway',
                         color: fontcolor,
@@ -253,37 +319,47 @@ class _ReportCaseState extends State<ReportCase> {
                   ),
                 ),
                 SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: TextFormField(
-                    controller: conditionController,
-                    textAlign: TextAlign.left,
-                    keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(
-                      hintText: 'What are the Conditions?',
-                      hintStyle: GoogleFonts.getFont(
-                        'Raleway',
-                        color: fontcolor,
-                        fontSize: 18,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: maincolor,
-                          width: 2,
+                Align(
+                  alignment: Alignment.topLeft,
+                  // padding: EdgeInsets.all(20),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        height: 50.00,
+                        width: MediaQuery.of(context).size.width * .7,
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: backgroundcolor,
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(0.00, 3.00),
+                              color: maincolor.withOpacity(0.16),
+                              blurRadius: 6,
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(5.00),
                         ),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(4.0),
-                          topRight: Radius.circular(4.0),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            value: _selectedItem,
+                            style: GoogleFonts.getFont(
+                              'Raleway',
+                              color: fontcolor,
+                              fontSize: 18,
+                            ),
+                            items: _dropdownMenuItems,
+                            onChanged: (value) {
+                              setState(() {
+                                // appstate.branchcontent = value;
+                                _selectedItem = value;
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ),
-                    validator: (value) {
-                      value.trim();
-                      if (value.isEmpty) {
-                        return 'Field is required';
-                      }
-                      return null;
-                    },
                   ),
                 ),
                 SizedBox(height: 10),
@@ -294,7 +370,7 @@ class _ReportCaseState extends State<ReportCase> {
                     textAlign: TextAlign.left,
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
-                      hintText: 'Symptoms?',
+                      hintText: appstate.isenglish ? 'Symptoms?' : 'Dalili?',
                       hintStyle: GoogleFonts.getFont(
                         'Raleway',
                         color: fontcolor,
@@ -321,165 +397,163 @@ class _ReportCaseState extends State<ReportCase> {
                   ),
                 ),
                 SizedBox(height: 10),
-
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 12.0),
-                //   child: Column(
-                //     children: [
-                //       Align(
-                //         alignment: Alignment.centerLeft,
-                //         child: Text(
-                //           "Any Images?",
-                //           style: GoogleFonts.raleway(
-                //               textStyle: TextStyle(
-                //                   fontSize: fontsize1,
-                //                   color: fontcolor,
-                //                   fontWeight: FontWeight.bold)),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 12.0),
-                //   child: Align(
-                //     alignment: Alignment.topLeft,
-                //     child: SingleChildScrollView(
-                //       scrollDirection: Axis.horizontal,
-                //       child: Row(
-                //         children: [
-                //           GestureDetector(
-                //             onTap: loadvariantsAssets,
-                //             child: Container(
-                //               width: 50,
-                //               height: 50,
-                //               decoration: BoxDecoration(
-                //                 shape: BoxShape.circle,
-                //                 color: maincolor,
-                //               ),
-                //               child: Center(
-                //                 child: Icon(
-                //                   Icons.add,
-                //                   color: backgroundcolor,
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //           SizedBox(
-                //             width: 5,
-                //           ),
-                //           SingleChildScrollView(
-                //             scrollDirection: Axis.horizontal,
-                //             child: Container(
-                //               height: MediaQuery.of(context).size.height * .16,
-                //               decoration: BoxDecoration(
-                //                 color: Color(0xfff5f5f5),
-                //                 boxShadow: [
-                //                   BoxShadow(
-                //                     offset: Offset(-3.00, -3.00),
-                //                     color: Color(0xffffffff),
-                //                     blurRadius: 6,
-                //                   ),
-                //                 ],
-                //                 borderRadius: BorderRadius.circular(6.00),
-                //               ),
-                //               child: builimagevariantsListview(),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
-               
-                // Padding(
-                //   padding: const EdgeInsets.all(12.0),
-                //   child: Column(
-                //     children: [
-                //       Align(
-                //         alignment: Alignment.centerLeft,
-                //         child: Text(
-                //           "Any Audio?",
-                //           style: GoogleFonts.raleway(
-                //               textStyle: TextStyle(
-                //                   fontSize: fontsize1,
-                //                   color: fontcolor,
-                //                   fontWeight: FontWeight.bold)),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // canRecord
-                //     ? Align(
-                //         alignment: Alignment.topLeft,
-                //         child: Padding(
-                //           padding: const EdgeInsets.all(12.0),
-                //           child: Row(
-                //             children: [
-                //               GestureDetector(
-                //                 onTap: () {
-                //                   if (isRecord) {
-                //                     _stopRecord();
-                //                   } else {
-                //                     _startRecord();
-                //                   }
-                //                 },
-                //                 child: Container(
-                //                   width: 50,
-                //                   height: 50,
-                //                   decoration: BoxDecoration(
-                //                     shape: BoxShape.circle,
-                //                     color: isRecord ? maincolor2 : maincolor,
-                //                   ),
-                //                   child: Center(
-                //                     child: Icon(
-                //                       isRecord
-                //                           ? Icons.keyboard_voice_rounded
-                //                           : Icons.keyboard_voice_outlined,
-                //                       color: backgroundcolor,
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ),
-                //               SizedBox(
-                //                 width: 5,
-                //               ),
-                //               IconButton(
-                //                   icon: isPlay
-                //                       ? Icon(Icons.play_arrow_outlined,
-                //                           color: maincolor)
-                //                       : Icon(Icons.play_disabled),
-                //                   onPressed: () {
-                //                     if (!isRecord && file.length > 0) {
-                //                       _startStopPlay();
-                //                     }
-                //                   }),
-                //               SizedBox(
-                //                 width: 5,
-                //               ),
-                //               Text(
-                //                 'TIME: ' + recordPosition.toStringAsFixed(2),
-                //                 style: GoogleFonts.raleway(
-                //                     textStyle: TextStyle(
-                //                   fontSize: fontsize1,
-                //                   color: fontcolor,
-                //                 )),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       )
-                //     : Text(
-                //         'Microphone Access Disabled.\nYou can enable access in Settings',
-                //         style: GoogleFonts.raleway(
-                //             textStyle: TextStyle(
-                //           fontSize: fontsize1,
-                //           color: fontcolor,
-                //         )),
-                //       ),
-               
-               
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          appstate.isenglish ? "Any Images?" : "Picha Zozote?",
+                          style: GoogleFonts.raleway(
+                              textStyle: TextStyle(
+                                  fontSize: fontsize1,
+                                  color: fontcolor,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: loadvariantsAssets,
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: maincolor,
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.add,
+                                  color: backgroundcolor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * .16,
+                              decoration: BoxDecoration(
+                                color: Color(0xfff5f5f5),
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: Offset(-3.00, -3.00),
+                                    color: Color(0xffffffff),
+                                    blurRadius: 6,
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(6.00),
+                              ),
+                              child: builimagevariantsListview(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          appstate.isenglish ? "Any Audio?" : "Sauti",
+                          style: GoogleFonts.raleway(
+                              textStyle: TextStyle(
+                                  fontSize: fontsize1,
+                                  color: fontcolor,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                canRecord
+                    ? Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  if (isRecord) {
+                                    _stopRecord();
+                                  } else {
+                                    _startRecord();
+                                  }
+                                },
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: isRecord ? maincolor2 : maincolor,
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      isRecord
+                                          ? Icons.keyboard_voice_rounded
+                                          : Icons.keyboard_voice_outlined,
+                                      color: backgroundcolor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              IconButton(
+                                  icon: isPlay
+                                      ? Icon(Icons.play_arrow_outlined,
+                                          color: maincolor)
+                                      : Icon(Icons.play_disabled),
+                                  onPressed: () {
+                                    if (!isRecord && file.length > 0) {
+                                      _startStopPlay();
+                                    }
+                                  }),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'TIME: ' + recordPosition.toStringAsFixed(2),
+                                style: GoogleFonts.raleway(
+                                    textStyle: TextStyle(
+                                  fontSize: fontsize1,
+                                  color: fontcolor,
+                                )),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Text(
+                        appstate.isenglish
+                            ? 'Microphone Access Disabled.\nYou can enable access in Settings'
+                            : 'Ufikiaji wa Maikrofoni Umezimwa. \nUnaweza kuwezesha ufikiaji katika Mipangilio',
+                        style: GoogleFonts.raleway(
+                            textStyle: TextStyle(
+                          fontSize: fontsize1,
+                          color: fontcolor,
+                        )),
+                      ),
                 Padding(
                   padding: const EdgeInsets.all(12),
                   child: GestureDetector(
@@ -497,7 +571,9 @@ class _ReportCaseState extends State<ReportCase> {
                                 strokeWidth: 2,
                               )
                             : Text(
-                                "Continue...",
+                                appstate.isenglish
+                                    ? "Continue..."
+                                    : "Endelea ...",
                                 style: GoogleFonts.raleway(
                                     textStyle: TextStyle(
                                         color: backgroundcolor,

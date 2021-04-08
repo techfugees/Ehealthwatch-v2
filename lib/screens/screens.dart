@@ -6,3 +6,4 @@ export 'audiorec.dart';
 export 'noconnection.dart';
 export 'location.dart';
 export 'nolocation.dart';
+export 'language.dart';

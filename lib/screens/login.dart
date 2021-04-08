@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 // import 'package:page_transition/page_transition.dart';
 import 'package:techfugeesapp/components/components.dart';
 import 'package:techfugeesapp/data/data.dart';
+import 'package:techfugeesapp/models/models.dart';
 // import 'package:techfugeesapp/screens/screens.dart';
 // import 'package:techfugeesapp/services/modules.dart';
 import 'package:techfugeesapp/theme/theme.dart';
@@ -46,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         isLoading = true;
       });
 
-      MyNavigator.goToHomePage(context,phoneTextController.text );
+      MyNavigator.goToHomePage(context, phoneTextController.text);
     } else {
       setState(() {
         isLoading = false;
@@ -57,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appstate = Provider.of<AppState>(context);
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: maincolor,
@@ -89,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: Text(
-                      "Tech E-Health App",
+                      "Health E-Watch App Supported by Kenya Red Cross and TechFugees",
                       style: GoogleFonts.raleway(
                         textStyle: TextStyle(
                           color: backgroundcolor,
@@ -125,7 +128,9 @@ class _LoginPageState extends State<LoginPage> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                hintText: 'Phone Number',
+                                hintText: appstate.isenglish
+                                    ? 'Phone Number'
+                                    : 'Nambari Ya Simu',
                                 hintStyle: GoogleFonts.getFont(
                                   'Raleway',
                                   color: Colors.white,
@@ -177,7 +182,9 @@ class _LoginPageState extends State<LoginPage> {
                                     strokeWidth: 2,
                                   )
                                 : Text(
-                                    "CONTINUE...",
+                                    appstate.isenglish
+                                        ? "CONTINUE..."
+                                        : "ENDELEA ...",
                                     style: GoogleFonts.raleway(
                                         textStyle: TextStyle(
                                             color: maincolor,

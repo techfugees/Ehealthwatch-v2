@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 var backgroundcolor = Color(0xfff7f7fa);
 var iconcolor = Color(0xffefefef);
-var fontcolor = Color(0xff2c2c2c);
-var maincolor2 =Color(0xffb43309);
-var maincolor = Color(0xff239689);
+var fontcolor = Color(0xff1a2e40);
+var maincolor2 =Color(0xff376289);
+var maincolor = Color(0xffff453d);
 var cardcolors = Color(0xfff5f5f5);
 ThemeData theme() {
   return ThemeData(

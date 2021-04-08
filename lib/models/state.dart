@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AppState extends ChangeNotifier {
+  bool isenglish = true;
   static LatLng _initialPosition;
   static LatLng _selectpickPosition;
   static LatLng _dropoffPosition;
@@ -44,7 +45,7 @@ class AppState extends ChangeNotifier {
     _initialPosition = LatLng(position.latitude, position.longitude);
     print("initial position is : ${_initialPosition.toString()}");
     locationController.text = placemark[0].name;
-    addMarker(_initialPosition,locationController.text);
+    addMarker(_initialPosition, locationController.text);
     notifyListeners();
   }
 

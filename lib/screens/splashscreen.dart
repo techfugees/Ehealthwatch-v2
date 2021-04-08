@@ -18,7 +18,7 @@ class _IntroScreenState extends State<IntroScreen> {
         Duration(seconds: 5),
         () => token == null
             ? MyNavigator.goToLogin(context)
-            : MyNavigator.goToHomePage(context,token)));
+            : MyNavigator.goToHomePage(context, token)));
     super.initState();
   }
 
@@ -35,36 +35,27 @@ class _IntroScreenState extends State<IntroScreen> {
       body: Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * .4,
+            height: MediaQuery.of(context).size.height * .35,
           ),
-          SizedBox(height: 50),
+          // SizedBox(height: 50),
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Image.asset('assets/logo2.png',width: 250,height: 150,)),
+          ),
+          SizedBox(height: 15),
           Align(
             alignment: Alignment.center,
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
-                'TechFugees',
-                style: GoogleFonts.raleway(
-                  textStyle: TextStyle(
-                      color: maincolor,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 5),
-          Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(
-                'Health E-Watch App',
+                'Health E-Watch App \nSupported by Kenya Red Cross and TechFugees',textAlign: TextAlign.center,
                 style: GoogleFonts.raleway(
                   textStyle: TextStyle(
                       color: fontcolor,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold),
+                      fontStyle: FontStyle.italic,
+                      fontSize: 11,),
                 ),
               ),
             ),

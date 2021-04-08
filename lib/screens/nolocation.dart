@@ -3,8 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:techfugeesapp/data/data.dart';
 // import 'package:techfugeesapp/theme/theme.dart';
 import 'package:location/location.dart';
-  Location locationcustom = new Location();
-  bool _serviceEnabled;
+
+Location locationcustom = new Location();
+bool _serviceEnabled;
+
 class NoLocation extends StatelessWidget {
   void openLocationSetting() async {
     _serviceEnabled = await locationcustom.serviceEnabled();
@@ -22,7 +24,9 @@ class NoLocation extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            
+            SizedBox(
+              height: 150,
+            ),
             Container(
               // height: MediaQuery.of(context).size.height * .3,
               child: Icon(

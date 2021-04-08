@@ -5,18 +5,21 @@ class MyNavigator {
   static goToLogin(BuildContext context) {
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (BuildContext context) {
+      return ChooseLanguage();
+    }));
+  }
+
+  static goToLoginPage(BuildContext context) {
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (BuildContext context) {
       return LoginPage();
     }));
   }
 
   static goToHomePage(BuildContext context, String phonenumber) {
-
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (BuildContext context) {
-      return ReportCase(
-        phonenumber:  phonenumber
-            
-      );
+      return ReportCase(phonenumber: phonenumber);
     }));
   }
 }

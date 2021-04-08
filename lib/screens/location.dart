@@ -72,19 +72,19 @@ class _LocationWidgetState extends State<LocationWidget> {
     });
     auth.then((auth) async {
       // if (auth == "reported") {
-        // showInSnackBar("$auth");
-        showInSnackBar('Reported!');
+      // showInSnackBar("$auth");
+      showInSnackBar('Reported!');
 
-        prefs.setString('token', widget.phonenumber);
-        Navigator.pushReplacement(
-          context,
-          PageTransition(
-            type: PageTransitionType.rightToLeft,
-            child: ReportCase(
-              phonenumber: widget.phonenumber,
-            ),
+      prefs.setString('token', widget.phonenumber);
+      Navigator.pushReplacement(
+        context,
+        PageTransition(
+          type: PageTransitionType.rightToLeft,
+          child: ReportCase(
+            phonenumber: widget.phonenumber,
           ),
-        );
+        ),
+      );
       // } else {
       //   showInSnackBar('An Error Occurred!');
       // }
@@ -135,7 +135,7 @@ class _LocationWidgetState extends State<LocationWidget> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          "Report A Case",
+          appState.isenglish ? "Report A Case" : "Ripoti Kesi",
           style: GoogleFonts.raleway(
               textStyle: TextStyle(
                   fontSize: fontsize1,
@@ -151,7 +151,9 @@ class _LocationWidgetState extends State<LocationWidget> {
                 Row(
                   children: [
                     Text(
-                      "Phone Number : ",
+                      appState.isenglish
+                          ? "Phone Number : "
+                          : "Nambari Ya Simu : ",
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.nunito(
                           color: fontcolor,
@@ -175,7 +177,7 @@ class _LocationWidgetState extends State<LocationWidget> {
                 Row(
                   children: [
                     Text(
-                      "Date/Time: ",
+                      appState.isenglish ? "Date/Time: " : "Siku/Masaa: ",
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.nunito(
                           color: fontcolor,
@@ -199,7 +201,7 @@ class _LocationWidgetState extends State<LocationWidget> {
                 Row(
                   children: [
                     Text(
-                      "Location:",
+                      appState.isenglish ? "Location:" : "Mahali: ",
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.nunito(
                           color: fontcolor,
@@ -233,7 +235,7 @@ class _LocationWidgetState extends State<LocationWidget> {
                         color: maincolor),
                     child: Center(
                       child: Text(
-                        "REQUEST ...",
+                       appState.isenglish? "COMPLETE ...":"KAMILISHA ...",
                         style: GoogleFonts.nunito(
                             textStyle: TextStyle(
                                 color: backgroundcolor,
@@ -251,7 +253,30 @@ class _LocationWidgetState extends State<LocationWidget> {
         ),
       ),
       body: appState.initialPosition == null
-          ? NoLocation()
+          ? Column(
+              children: [
+                SizedBox(
+                  height: 150,
+                ),
+                Container(
+                  child: Icon(
+                    Icons.location_disabled_outlined,
+                    size: 50,
+                    color: Color(0xffa5a5a5),
+                  ),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * .1,
+                  child: Center(
+                    child: Text(
+                      appState.isenglish ? 'Enable Location' : "Washa Mahali",
+                      style: GoogleFonts.raleway(
+                          fontSize: fontsize1, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
+            )
           : GoogleMap(
               initialCameraPosition: CameraPosition(
                   tilt: 10,
