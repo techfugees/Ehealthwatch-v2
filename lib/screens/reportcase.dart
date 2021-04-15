@@ -255,7 +255,7 @@ class _ReportCaseState extends State<ReportCase> {
                             fontWeight: FontWeight.bold)),
                   ),
                   content: Text(
-                    "04734983296",
+                    "Ambulance number:0707173515\nMaternity number 0706173705\n Outpatient number:0110853117",
                     style: GoogleFonts.raleway(
                         textStyle: TextStyle(
                       fontSize: fontsize1,
